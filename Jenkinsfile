@@ -14,21 +14,20 @@ podTemplate(label: 'buildpod',
             stage('Build Docker Image') {
                 sh """
                 #!/bin/bash
-                NAMESPACE=`cat /var/run/configs/registry-config/namespace`
-                REGISTRY=`cat /var/run/configs/registry-config/registry`
-
+                NAMESPACE=default
+                REGISTRY=mycluster.icp:8500
                 docker build -t \${REGISTRY}/\${NAMESPACE}/hello-container:${env.BUILD_NUMBER} .
                 """
             } 
             stage('Push Docker Image to Registry') {
                 sh """
                 #!/bin/bash
-                NAMESPACE=`cat /var/run/configs/registry-config/namespace`
-                REGISTRY=`cat /var/run/configs/registry-config/registry`
+                NAMESPACE=default
+                REGISTRY=mycluster.icp:8500
 
                 set +x
-                DOCKER_USER=`cat /var/run/secrets/registry-account/username`
-                DOCKER_PASSWORD=`cat /var/run/secrets/registry-account/password`
+                DOCKER_USER=admin
+                DOCKER_PASSWORD=passw0rd
                 docker login -u=\${DOCKER_USER} -p=\${DOCKER_PASSWORD} \${REGISTRY}
                 set -x
 
@@ -41,8 +40,8 @@ podTemplate(label: 'buildpod',
                 sh """
                 #!/bin/bash
                 set +e
-                NAMESPACE=`cat /var/run/configs/registry-config/namespace`
-                REGISTRY=`cat /var/run/configs/registry-config/registry`
+                NAMESPACE=admin
+                REGISTRY=passw0rd
                 CHARTNAME=`helm list --deployed --short hello-container`
 
                 helm list \${CHARTNAME}
