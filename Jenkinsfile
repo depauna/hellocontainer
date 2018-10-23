@@ -56,7 +56,7 @@ podTemplate(label: 'buildpod',
                 REGISTRY=passw0rd
                 CHARTNAME=`helm list --tls --deployed --short hello-container`
 
-                helm list \${CHARTNAME}
+                helm list --tls \${CHARTNAME}
 
                 # Update Release 
                 helm upgrade --wait --install --tls hello-container ./hellocontainer-chart/ --set image.repository=\${REGISTRY}/\${NAMESPACE}/hello-container --set image.tag=${env.BUILD_NUMBER}
