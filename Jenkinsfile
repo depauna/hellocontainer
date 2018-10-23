@@ -48,7 +48,7 @@ podTemplate(label: 'buildpod',
                 sh """
                 #!/bin/bash
                 export HELM_HOME=/etc/helmtest
-                NAMESPACE=admin
+                NAMESPACE=default
                 REGISTRY=mycluster.icp:8500
                 CHARTNAME=`helm list --tls --deployed --short hello-container`
 
