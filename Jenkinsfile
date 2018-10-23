@@ -27,11 +27,9 @@ podTemplate(label: 'buildpod',
                 NAMESPACE=default
                 REGISTRY=mycluster.icp:8500
 
-                set +x
                 DOCKER_USER=admin
                 DOCKER_PASSWORD=passw0rd
                 docker login -u=\${DOCKER_USER} -p=\${DOCKER_PASSWORD} \${REGISTRY}
-                set -x
 
                 docker push \${REGISTRY}/\${NAMESPACE}/hello-container:${env.BUILD_NUMBER}
                 """
@@ -41,7 +39,6 @@ podTemplate(label: 'buildpod',
             stage('Test kubectl') {
                 sh """
                 #!/bin/bash
-                set +e
                 kubectl get nodes
                 """
             }
@@ -50,7 +47,6 @@ podTemplate(label: 'buildpod',
             stage('Deploy new helm release') {
                 sh """
                 #!/bin/bash
-                set +e
                 export HELM_HOME=~/.helmtest
                 NAMESPACE=admin
                 REGISTRY=passw0rd
