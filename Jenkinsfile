@@ -2,7 +2,7 @@ podTemplate(label: 'buildpod',
     volumes: [
         hostPathVolume(hostPath: '/etc/docker/certs.d', mountPath: '/etc/docker/certs.d'),
         hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
-        hostPathVolume(hostPath: '/root/.helmtest', mountPath: '~/.helmtest')
+        hostPathVolume(hostPath: '~/.helmtest', mountPath: '~/.helmtest')
     ],
     containers: [
         containerTemplate(name: 'docker', image: 'lachlanevenson/docker-make', command: 'cat', ttyEnabled: true),
@@ -49,7 +49,7 @@ podTemplate(label: 'buildpod',
                 #!/bin/bash
                 export HELM_HOME=~/.helmtest
                 NAMESPACE=admin
-                REGISTRY=passw0rd
+                REGISTRY=mycluster.icp:8500
                 CHARTNAME=`helm list --tls --deployed --short hello-container`
 
                 helm list --tls \${CHARTNAME}
