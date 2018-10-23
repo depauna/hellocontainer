@@ -2,7 +2,7 @@ podTemplate(label: 'buildpod',
     volumes: [
         hostPathVolume(hostPath: '/etc/docker/certs.d', mountPath: '/etc/docker/certs.d'),
         hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
-        hostPathVolume(hostPath: '/root/.helmtest', mountPath: '/root/.helmtest')
+        hostPathVolume(hostPath: '/root/.helmtest', mountPath: '~/.helmtest')
     ],
     containers: [
         containerTemplate(name: 'docker', image: 'lachlanevenson/docker-make', command: 'cat', ttyEnabled: true),
