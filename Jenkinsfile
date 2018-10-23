@@ -56,14 +56,8 @@ podTemplate(label: 'buildpod',
 
                 helm list \${CHARTNAME}
 
-                if [ \${?} -ne "0" ]; then
-                    # No chart release to update
-                    echo 'No chart release to update'
-                    exit 1
-                fi
-
                 # Update Release 
-                helm upgrade hello-container ./hellocontainer-chart/ --set image.repository=\${REGISTRY}/\${NAMESPACE}/hello-container --set image.tag=${env.BUILD_NUMBER}
+                helm upgrade --wait --install hello-container ./hellocontainer-chart/ --set image.repository=\${REGISTRY}/\${NAMESPACE}/hello-container --set image.tag=${env.BUILD_NUMBER}
                 """
             }
         }
