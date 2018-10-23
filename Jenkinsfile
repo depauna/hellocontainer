@@ -37,11 +37,13 @@ podTemplate(label: 'buildpod',
             }
         }
         container('kubectl') {
-            sh """
-            #!/bin/bash
-            set +e
-            kubectl get nodes
-            """
+            stage('Test kubectl') {
+                sh """
+                #!/bin/bash
+                set +e
+                kubectl get nodes
+                """
+            }
         }
         container('helm') {
             stage('Deploy new helm release') {
