@@ -2,7 +2,7 @@ podTemplate(label: 'buildpod',
     volumes: [
         hostPathVolume(hostPath: '/etc/docker/certs.d', mountPath: '/etc/docker/certs.d'),
         hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
-        hostPathVolume(hostPath: '/root/.helmtest', mountPath: '~/.helmtest')
+        hostPathVolume(hostPath: '/root/.helmtest', mountPath: '/etc/helmtest')
     ],
     containers: [
         containerTemplate(name: 'docker', image: 'lachlanevenson/docker-make', command: 'cat', ttyEnabled: true),
@@ -47,7 +47,7 @@ podTemplate(label: 'buildpod',
             stage('Deploy new helm release') {
                 sh """
                 #!/bin/bash
-                export HELM_HOME=~/.helmtest
+                export HELM_HOME=/etc/helmtest
                 NAMESPACE=admin
                 REGISTRY=mycluster.icp:8500
                 CHARTNAME=`helm list --tls --deployed --short hello-container`
