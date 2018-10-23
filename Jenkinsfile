@@ -51,6 +51,7 @@ podTemplate(label: 'buildpod',
                 sh """
                 #!/bin/bash
                 set +e
+                export HELM_HOME=~/.helmtest
                 NAMESPACE=admin
                 REGISTRY=passw0rd
                 CHARTNAME=`helm list --deployed --short hello-container`
