@@ -6,9 +6,8 @@ podTemplate(label: 'buildpod',
         configMapVolume(configMapName: 'registry-config', mountPath: '/var/run/configs/registry-config')
     ],
     containers: [
-        containerTemplate(name: 'docker', image: 'wizplaycluster.icp:8500/default/docker:latest', command: 'cat', ttyEnabled: true),
-        containerTemplate(name: 'containertest', image: 'wizplaycluster.icp:8500/default/containertest:latest', command: 'cat', ttyEnabled: true),
-        containerTemplate(name: 'helm', image: 'wizplaycluster.icp:8500/default/k8s-helm:latest', command: 'cat', ttyEnabled: true)
+        containerTemplate(name: 'docker', image: 'lachlanevenson/docker-make', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.7.2', command: 'cat', ttyEnabled: true)
   ]) {
 
     node('buildpod') {
@@ -36,16 +35,6 @@ podTemplate(label: 'buildpod',
                 set -x
 
                 docker push \${REGISTRY}/\${NAMESPACE}/hello-container:${env.BUILD_NUMBER}
-                """
-            }
-        }
-        container('containertest') {
-            stage('Test built docker Image') {
-                sh """
-                #!/bin/bash
-                NAMESPACE=`cat /var/run/configs/registry-config/namespace`
-                REGISTRY=`cat /var/run/configs/registry-config/registry`
-                container-structure-test  -test.v   -image \${REGISTRY}/\${NAMESPACE}/hello-container:${env.BUILD_NUMBER} /var/tmp/hello-container-test.yaml
                 """
             }
         }
