@@ -5,7 +5,7 @@ podTemplate(label: 'buildpod',
         hostPathVolume(hostPath: '/root/.helmtest', mountPath: '/etc/helmtest')
     ],
     containers: [
-        containerTemplate(name: 'docker', image: 'lachlanevenson/docker-make', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'docker', image: 'mycluster.icp:8500/default/k8s-docker:1', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'helm', image: 'mycluster.icp:8500/default/k8s-helm:2.7.2', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'kubectl', image: 'mycluster.icp:8500/default/k8s-kubectl:1.10.9', command: 'cat', ttyEnabled: true)
   ]) {
