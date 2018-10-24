@@ -12,7 +12,7 @@ podTemplate(label: 'buildpod',
 
     node('buildpod') {
         checkout scm
-        container('docker') {
+        container('helm') {
             stage('Build Docker Image') {
                 sh """
                 #!/bin/bash
