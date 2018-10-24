@@ -19,7 +19,7 @@ var PORT = 80;
 
 var app = express();
 app.get('/', function (req, res) {
-  res.send('Much BETTER. 8)');
+  res.send('Multiple build containers!');
 });
 
 
